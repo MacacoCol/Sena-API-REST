@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Registro e inicio de sesión</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 420px; margin: 40px auto; padding: 0 16px; }
+        h1 { font-size: 1.3rem; }
+        form { border: 1px solid #ccc; border-radius: 8px; padding: 16px; margin-bottom: 24px; }
+        label { display: block; margin-top: 8px; }
+        input { width: 100%; padding: 8px; box-sizing: border-box; }
+        button { margin-top: 12px; padding: 8px 16px; cursor: pointer; }
+        #respuesta { padding: 12px; border-radius: 8px; background: #f3f3f3; min-height: 24px; }
+    </style>
+</head>
+<body>
+    <h1>Servicio web de registro e inicio de sesión</h1>
+
+    <!-- Formulario de registro: llama a POST api/auth/registro -->
+    <form id="formRegistro">
+        <strong>Registro</strong>
+        <label>Usuario <input id="regUsuario" required></label>
+        <label>Contraseña (mínimo 6 caracteres) <input id="regClave" type="password" required></label>
+        <button type="submit">Registrarse</button>
+    </form>
+
+    <!-- Formulario de login: llama a POST api/auth/login -->
+    <form id="formLogin">
+        <strong>Inicio de sesión</strong>
+        <label>Usuario <input id="logUsuario" required></label>
+        <label>Contraseña <input id="logClave" type="password" required></label>
+        <button type="submit">Iniciar sesión</button>
+    </form>
+
+    <div id="respuesta">Aquí aparecerá la respuesta del servicio.</div>
+
+    <script>
+        // Envía las credenciales al servicio y muestra el código HTTP y el mensaje recibido
+        async function enviar(ruta, usuario, contrasena) {
+            const salida = document.getElementById('respuesta');
+            try {
+                const resp = await fetch('api/auth/' + ruta, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: usuario, contrasena: contrasena })
+                });
+                const datos = await resp.json();
+                salida.textContent = resp.status + ' - ' + datos.mensaje;
+            } catch (e) {
+                salida.textContent = 'No se pudo conectar con el servicio.';
+            }
+        }
+
+        document.getElementById('formRegistro').addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            enviar('registro', document.getElementById('regUsuario').value, document.getElementById('regClave').value);
+        });
+        document.getElementById('formLogin').addEventListener('submit', function (ev) {
+            ev.preventDefault();
+            enviar('login', document.getElementById('logUsuario').value, document.getElementById('logClave').value);
+        });
+    </script>
+</body>
+</html>
