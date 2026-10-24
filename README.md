@@ -102,9 +102,5 @@ curl -X POST http://localhost:8080/servicio-autenticacion/api/auth/login \
 
 El proyecto se desarrolló con Git. Para ver el historial: `git log --oneline`.
 
-Para publicarlo en GitHub (el enlace va en `enlace_repositorio.txt`):
 
-```bash
-git remote add origin https://github.com/TU_USUARIO/servicio-autenticacion.git
-git push -u origin main
-```
+
