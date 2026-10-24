@@ -1,0 +1,6 @@
+# Archivos generados por Maven y NetBeans que no se versionan
+target/
+nbproject/private/
+nb-configuration.xml
+*.class
+*.log
